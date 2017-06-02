@@ -9,7 +9,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/:search', function(req, res) {
-    res.send('You found the search endpoint.');
+    res.send('You are searching for ' + req.params.search);
 });
 
 app.listen(app.get('port'), function() {
