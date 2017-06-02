@@ -1,4 +1,7 @@
 var express = require('express');
+const GoogleImages = require('google-images');
+
+const searchClient = new GoogleImages('013847059286481252061:qhhqalqaddm', 'AIzaSyD8xxoiT4DP4l9KYnO7RK4LUQHtUbn4KOA');
 
 var app = express();
 
@@ -9,7 +12,8 @@ app.get('/', function(req, res) {
 });
 
 app.get('/:search', function(req, res) {
-    res.send('You are searching for ' + req.params.search);
+    searchClient.search(req.params.search)
+	.then(function(images) {res.send(images)});
 });
 
 app.listen(app.get('port'), function() {
