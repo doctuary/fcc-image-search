@@ -47,7 +47,7 @@ app.get('/api/recentSearches', function(req, res) {
         } else {
             let shortUrl = "http://" + req.host + "/" + shortId;
             let imageSearches = db.collection('imageSearches');
-            let recentSearches = imageSearches.find().toArray(function(err, docs) {
+            let recentSearches = imageSearches.find({}).toArray(function(err, docs) {
                 if (err) {
                     res.end();
                     return console.log('read', err);
