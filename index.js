@@ -16,6 +16,8 @@ app.get('/', function(req, res) {
 });
 
 app.get('/:search', function(req, res) {
+    let timestamp = new Date.now();
+    timestamp = timestamp.toString();
     let searchValue = req.params.search;
     let page = req.query.offset ? req.query.offset : 1;
     searchClient.search(searchValue, {page: page})
@@ -26,8 +28,8 @@ app.get('/:search', function(req, res) {
             } else {
                 let imageSearches = db.collection('imageSearches');
                 let result = {
-                    searchValue: searchValue,
-                    searchResult: images
+                    timestamp: timestamp,
+                    searchValue: searchValue
                 }
                 imageSearches.insert(result, function(){
                     db.close();
@@ -36,6 +38,32 @@ app.get('/:search', function(req, res) {
             }
         });
     });
+});
+
+app.get('/recent', function(req, res) {
+    MongoClient.connect(url, function(err, db) {
+        if(err) {
+            res.end('Failed trying to connect to database.');
+            return console.log('Unable to connect to the mongoDB server. Error:', err);
+        } else {
+            let shortUrl = "http://" + req.host + "/" + shortId;
+            let imageSearches = db.collection('imageSearches');
+            let recentSearches = imageSearches.find().toArray(function(err, docs) {
+                if (err) {
+                    res.end();
+                    return console.log('read', err);
+                } else {
+                    if (docs.length>0) {
+                        db.close();
+                        res.send(docs);
+                    } else {
+                        db.close();
+                        res.end('Found empty collection');
+                    }
+                }
+            })
+        }
+    })
 });
 
 app.listen(app.get('port'), function() {
