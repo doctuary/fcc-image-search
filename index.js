@@ -12,7 +12,8 @@ app.get('/', function(req, res) {
 });
 
 app.get('/:search', function(req, res) {
-    searchClient.search(req.params.search)
+    let page = req.query.offset ? req.query.offset : 1;
+    searchClient.search(req.params.search, {page: page})
 	.then(function(images) {res.send(images)});
 });
 
