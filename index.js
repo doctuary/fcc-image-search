@@ -16,8 +16,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/api/searchFor/:search', function(req, res) {
-    let timestamp = new Date.now();
-    timestamp = timestamp.toString();
+    let timestamp = new Date().toISOString();
     let searchValue = req.params.search;
     let page = req.query.offset ? req.query.offset : 1;
     searchClient.search(searchValue, {page: page})
