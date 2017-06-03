@@ -15,7 +15,7 @@ app.get('/', function(req, res) {
     res.send('This is an image search abstraction layer. Add your search string after the domain (ex. .../my search string).');
 });
 
-app.get('/:search', function(req, res) {
+app.get('/api/searchFor/:search', function(req, res) {
     let timestamp = new Date.now();
     timestamp = timestamp.toString();
     let searchValue = req.params.search;
@@ -40,7 +40,7 @@ app.get('/:search', function(req, res) {
     });
 });
 
-app.get('/recent', function(req, res) {
+app.get('/api/recentSearches', function(req, res) {
     MongoClient.connect(url, function(err, db) {
         if(err) {
             res.end('Failed trying to connect to database.');
