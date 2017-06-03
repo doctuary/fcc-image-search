@@ -45,7 +45,6 @@ app.get('/api/recentSearches', function(req, res) {
             res.end('Failed trying to connect to database.');
             return console.log('Unable to connect to the mongoDB server. Error:', err);
         } else {
-            let shortUrl = "http://" + req.host + "/" + shortId;
             let imageSearches = db.collection('imageSearches');
             let recentSearches = imageSearches.find({}).toArray(function(err, docs) {
                 if (err) {
